@@ -868,6 +868,8 @@
             hello@swigertech.com
           </div>
           <div class="contact-item">
+            <div class="contact-item-icon">📞</div>
+            (555) 000-1234
           </div>
           <div class="contact-item">
             <div class="contact-item-icon">📍</div>
@@ -876,7 +878,7 @@
         </div>
       </div>
 
-      <form onsubmit="handleSubmit(event)">
+      <form action="https://formspree.io/f/mjgzrzeo" method="POST">
         <div class="form-row2">
           <div class="form-field">
             <label>First Name</label>
@@ -888,7 +890,7 @@
           </div>
         </div>
         <div class="form-field">
-          <label></label>
+          <label>Email</label>
           <input type="email" placeholder="john@company.com" required/>
         </div>
         <div class="form-field">
@@ -941,20 +943,7 @@
       document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
     });
 
-    // Form submit
-    function handleSubmit(e) {
-      e.preventDefault();
-      const btn = e.target.querySelector('.submit-btn');
-      btn.textContent = '✓ Message Sent!';
-      btn.style.background = '#22a06b';
-      btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = 'Send Message →';
-        btn.style.background = '';
-        btn.disabled = false;
-        e.target.reset();
-      }, 3000);
-    }
+
   </script>
 
 </body>
