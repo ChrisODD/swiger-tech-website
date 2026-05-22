@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Swiger Tech Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #fafaf8;
+      --white: #ffffff;
+      --ink: #1a1a1a;
+      --ink-soft: #555;
+      --ink-muted: #999;
+      --accent: #e85d26;
+      --accent-pale: #fff0ea;
+      --border: #ebebeb;
+      --card-bg: #f5f5f2;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.3rem 6%;
+      background: rgba(250,250,248,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .logo em { font-style: italic; color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-btn {
+      background: var(--ink) !important;
+      color: var(--white) !important;
+      padding: 0.55rem 1.3rem !important;
+      border-radius: 999px !important;
+      font-weight: 500 !important;
+      transition: background 0.2s, transform 0.2s !important;
+    }
+    .nav-btn:hover { background: var(--accent) !important; transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+      padding: 9rem 6% 5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-left {}
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.6rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.1s ease forwards;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px; height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s ease forwards;
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      line-height: 1.75;
+      margin-top: 1.4rem;
+      max-width: 440px;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.3s ease forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s ease forwards;
+    }
+
+    .btn-dark {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--ink);
+      color: #fff;
+      padding: 0.85rem 1.8rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-dark:hover { background: var(--accent); transform: translateY(-2px); }
+    .btn-dark .arrow { transition: transform 0.2s; }
+    .btn-dark:hover .arrow { transform: translateX(3px); }
+
+    .btn-ghost {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--ink); border-color: var(--ink); }
+
+    /* Hero Right — floating service pills */
+    .hero-right {
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s ease forwards;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .service-pill {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.6rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+      cursor: default;
+    }
+    .service-pill:hover {
+      transform: translateX(6px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+      border-color: var(--accent);
+    }
+    .pill-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      background: var(--accent-pale);
+    }
+    .pill-content {}
+    .pill-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--ink);
+    }
+    .pill-desc {
+      font-size: 0.82rem;
+      color: var(--ink-muted);
+      margin-top: 0.15rem;
+    }
+    .pill-arrow {
+      margin-left: auto;
+      color: var(--border);
+      font-size: 1.1rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .service-pill:hover .pill-arrow { color: var(--accent); transform: translateX(3px); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── STATS BAND ── */
+    .stats-band {
+      padding: 3.5rem 6%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .stat-number em { font-style: italic; color: var(--accent); }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 0.4rem;
+    }
+    .stat-sep {
+      width: 1px;
+      height: 50px;
+      background: var(--border);
+    }
+
+    /* ── SERVICES ── */
+    #services {
+      padding: 7rem 6%;
+      background: var(--white);
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      max-width: 500px;
+    }
+    .section-heading em { font-style: italic; color: var(--accent); }
+
+    .section-intro {
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+      line-height: 1.75;
+      max-width: 420px;
+      margin-top: 0.8rem;
+      font-weight: 300;
+    }
+
+    .services-layout {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 5rem;
+      align-items: start;
+      margin-top: 4rem;
+      max-width: 1100px;
+    }
+
+    .services-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .svc-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .svc-card::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.3s;
+      border-radius: 0 2px 2px 0;
+    }
+    .svc-card:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,0,0,0.07); }
+    .svc-card:hover::after { transform: scaleY(1); }
+
+    .svc-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+    .svc-icon {
+      font-size: 1.2rem;
+      width: 40px; height: 40px;
+      background: var(--accent-pale);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .svc-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+    .svc-blurb {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+    .svc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1rem;
+    }
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      background: var(--white);
+      border: 1px solid var(--border);
+      color: var(--ink-soft);
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+    }
+
+    /* ── PROCESS ── */
+    #process {
+      padding: 7rem 6%;
+      background: var(--bg);
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+      max-width: 1100px;
+      position: relative;
+    }
+    .process-grid::before {
+      content: '';
+      position: absolute;
+      top: 22px;
+      left: 12%;
+      right: 12%;
+      height: 1px;
+      background: repeating-linear-gradient(90deg, var(--border) 0, var(--border) 8px, transparent 8px, transparent 16px);
+    }
+
+    .p-step {}
+    .p-num {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+      position: relative;
+      z-index: 1;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .p-step:hover .p-num { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .p-step-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+    }
+    .p-step-desc {
+      font-size: 0.83rem;
+      color: var(--ink-soft);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    /* ── WHY ── */
+    #why {
+      padding: 7rem 6%;
+      background: var(--ink);
+      color: #fff;
+    }
+
+    #why .section-label { color: #e85d26; }
+    #why .section-heading { color: #fff; max-width: 600px; }
+    #why .section-intro { color: rgba(255,255,255,0.5); }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 4rem;
+      max-width: 1100px;
+    }
+
+    .why-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 2rem;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .why-card:hover { background: rgba(232,93,38,0.08); border-color: rgba(232,93,38,0.3); }
+    .why-card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .why-card-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+    .why-card-desc {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      padding: 7rem 6%;
+      background: var(--white);
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 6rem;
+      align-items: start;
+      max-width: 1100px;
+    }
+
+    .contact-left {}
+    .contact-left .section-heading { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+
+    .contact-info {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+    }
+    .contact-item-icon {
+      width: 36px; height: 36px;
+      background: var(--accent-pale);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    /* Form */
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.2rem;
+    }
+    .form-field label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      width: 100%;
+    }
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      border-color: var(--accent);
+      background: var(--white);
+    }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder { color: #ccc; }
+    .form-field select option { background: var(--white); }
+    .form-field textarea { min-height: 110px; resize: vertical; }
+
+    .form-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .submit-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      padding: 0.9rem 2rem;
+      border-radius: 999px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      margin-top: 0.5rem;
+    }
+    .submit-btn:hover { background: var(--accent); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+    .footer-logo em { font-style: italic; color: var(--accent); }
+    .footer-links {
+      display: flex; gap: 1.8rem; list-style: none;
+    }
+    .footer-links a {
+      font-size: 0.83rem;
+      color: var(--ink-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-copy { font-size: 0.78rem; color: var(--ink-muted); }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      #hero { grid-template-columns: 1fr; gap: 3rem; padding-top: 8rem; }
+      .services-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .why-grid { grid-template-columns: 1fr 1fr; }
+      .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .stat-sep { display: none; }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 1rem 5%; }
+      .nav-links { display: none; }
+      .process-grid { grid-template-columns: 1fr; }
+      .process-grid::before { display: none; }
+      .why-grid { grid-template-columns: 1fr; }
+      .form-row2 { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="logo">Swiger <em>Tech</em> Services</a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#why">About</a></li>
+      <li><a href="#contact" class="nav-btn">Get a Quote</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Now Accepting New Clients</div>
+      <h1>We build tech that<br><em>works for you</em></h1>
+      <p class="hero-sub">IT support, custom apps, and beautiful websites — all from one team that actually cares about your goals.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-dark">Start a Project <span class="arrow">→</span></a>
+        <a href="#services" class="btn-ghost">See our services</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="service-pill">
+        <div class="pill-icon">🖥️</div>
+        <div class="pill-content">
+          <div class="pill-title">IT Services</div>
+          <div class="pill-desc">Infrastructure, support & security</div>
+        </div>
+        <div class="pill-arrow">→</div>
+      </div>
+      <div class="service-pill">
+        <div class="pill-icon">📱</div>
+        <div class="pill-content">
+          <div class="pill-title">App Development</div>
+          <div class="pill-desc">iOS, Android & cross-platform</div>
+        </div>
+        <div class="pill-arrow">→</div>
+      </div>
+      <div class="service-pill">
+        <div class="pill-icon">🌐</div>
+        <div class="pill-content">
+          <div class="pill-title">Web Development</div>
+          <div class="pill-desc">Fast, modern & conversion-focused</div>
+        </div>
+        <div class="pill-arrow">→</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- STATS -->
+  <div class="stats-band reveal">
+    <div class="stat">
+      <div class="stat-number">100<em>+</em></div>
+      <div class="stat-label">Projects Delivered</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <div class="stat-number">50<em>+</em></div>
+      <div class="stat-label">Happy Clients</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <div class="stat-number">98<em>%</em></div>
+      <div class="stat-label">Satisfaction Rate</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <div class="stat-number">5<em>+</em></div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="services-layout reveal">
+      <div>
+        <div class="section-label">— What We Do</div>
+        <h2 class="section-heading">Three services, <em>one team</em></h2>
+        <p class="section-intro">Everything your business needs to run, grow, and look great online — handled by people who know what they're doing.</p>
+      </div>
+      <div class="services-cards">
+
+        <div class="svc-card">
+          <div class="svc-header">
+            <div class="svc-icon">🖥️</div>
+            <div class="svc-name">IT Services</div>
+          </div>
+          <p class="svc-blurb">We manage your technology so you can focus on your business. From network setup to cybersecurity and 24/7 support.</p>
+          <div class="svc-tags">
+            <span class="tag">Network Management</span>
+            <span class="tag">Cloud Migration</span>
+            <span class="tag">Cybersecurity</span>
+            <span class="tag">Help Desk</span>
+            <span class="tag">Backup & Recovery</span>
+          </div>
+        </div>
+
+        <div class="svc-card">
+          <div class="svc-header">
+            <div class="svc-icon">📱</div>
+            <div class="svc-name">App Development</div>
+          </div>
+          <p class="svc-blurb">Custom mobile and desktop apps built with clean code and intuitive design. We take your idea from sketch to app store.</p>
+          <div class="svc-tags">
+            <span class="tag">iOS & Android</span>
+            <span class="tag">Cross-Platform</span>
+            <span class="tag">UI/UX Design</span>
+            <span class="tag">API Integration</span>
+            <span class="tag">Ongoing Maintenance</span>
+          </div>
+        </div>
+
+        <div class="svc-card">
+          <div class="svc-header">
+            <div class="svc-icon">🌐</div>
+            <div class="svc-name">Web Development</div>
+          </div>
+          <p class="svc-blurb">Fast, responsive websites that make a great first impression and turn visitors into customers. Built for performance and SEO.</p>
+          <div class="svc-tags">
+            <span class="tag">Custom Design</span>
+            <span class="tag">E-Commerce</span>
+            <span class="tag">CMS (WordPress)</span>
+            <span class="tag">SEO Optimization</span>
+            <span class="tag">Maintenance Plans</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="reveal">
+      <div class="section-label">— How We Work</div>
+      <h2 class="section-heading">Simple process, <em>great results</em></h2>
+      <p class="section-intro">No confusion, no surprises. Just a clear path from idea to finished product.</p>
+    </div>
+    <div class="process-grid reveal">
+      <div class="p-step">
+        <div class="p-num">1</div>
+        <div class="p-step-title">Discovery</div>
+        <p class="p-step-desc">We learn about your goals, challenges, and what success looks like for you.</p>
+      </div>
+      <div class="p-step">
+        <div class="p-num">2</div>
+        <div class="p-step-title">Planning</div>
+        <p class="p-step-desc">A clear roadmap with milestones, timelines, and an agreed budget — no guesswork.</p>
+      </div>
+      <div class="p-step">
+        <div class="p-num">3</div>
+        <div class="p-step-title">Build</div>
+        <p class="p-step-desc">We develop and test with regular check-ins so you always know where things stand.</p>
+      </div>
+      <div class="p-step">
+        <div class="p-num">4</div>
+        <div class="p-step-title">Launch & Support</div>
+        <p class="p-step-desc">Go live with confidence. We stay on hand for support, updates, and growth.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section id="why">
+    <div class="reveal">
+      <div class="section-label">— Why Swiger Tech</div>
+      <h2 class="section-heading" style="color:#fff;">We treat your business<br>like <em>our own</em></h2>
+      <p class="section-intro" style="color:rgba(255,255,255,0.45);">We're not just contractors. We're a long-term partner invested in making your technology work harder for you.</p>
+    </div>
+    <div class="why-grid reveal">
+      <div class="why-card">
+        <div class="why-card-icon">⚡</div>
+        <div class="why-card-title">Fast Turnaround</div>
+        <p class="why-card-desc">We set realistic timelines and stick to them. No dragging projects out.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-card-icon">🔒</div>
+        <div class="why-card-title">Security First</div>
+        <p class="why-card-desc">Best-in-class security practices baked into every project from day one.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-card-icon">📞</div>
+        <div class="why-card-title">Real Support</div>
+        <p class="why-card-desc">Actual humans, fast responses. You'll always have a direct line to our team.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-card-icon">📈</div>
+        <div class="why-card-title">Scalable Solutions</div>
+        <p class="why-card-desc">We build for where you're going — not just where you are today.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-card-icon">💡</div>
+        <div class="why-card-title">Honest Advice</div>
+        <p class="why-card-desc">We tell you what you actually need, even when it's simpler than you expected.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-card-icon">🤝</div>
+        <div class="why-card-title">Long-Term Partner</div>
+        <p class="why-card-desc">Many of our clients have been with us for years. We build relationships, not just products.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-layout reveal">
+      <div class="contact-left">
+        <div class="section-label">— Get in Touch</div>
+        <h2 class="section-heading">Ready to get <em>started?</em></h2>
+        <p class="section-intro">Tell us about your project and we'll get back to you within one business day with a free consultation.</p>
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-item-icon">📧</div>
+            hello@swigertech.com
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📞</div>
+            (555) 000-1234
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📍</div>
+            Serving clients nationwide
+          </div>
+        </div>
+      </div>
+
+      <form onsubmit="handleSubmit(event)">
+        <div class="form-row2">
+          <div class="form-field">
+            <label>First Name</label>
+            <input type="text" placeholder="John" required/>
+          </div>
+          <div class="form-field">
+            <label>Last Name</label>
+            <input type="text" placeholder="Smith" required/>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" placeholder="john@company.com" required/>
+        </div>
+        <div class="form-field">
+          <label>Service Needed</label>
+          <select required>
+            <option value="" disabled selected>Select a service…</option>
+            <option>IT Services</option>
+            <option>App Development</option>
+            <option>Web Development</option>
+            <option>Multiple Services</option>
+            <option>Not Sure Yet</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Tell Us About Your Project</label>
+          <textarea placeholder="A brief description of what you need…"></textarea>
+        </div>
+        <button class="submit-btn" type="submit">Send Message →</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Swiger <em>Tech</em> Services</div>
+    <ul class="footer-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#why">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 Swiger Tech Services</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const els = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 60);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    els.forEach(el => obs.observe(el));
+
+    // Nav shadow on scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Form submit
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.submit-btn');
+      btn.textContent = '✓ Message Sent!';
+      btn.style.background = '#22a06b';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'Send Message →';
+        btn.style.background = '';
+        btn.disabled = false;
+        e.target.reset();
+      }, 3000);
+    }
+  </script>
+
+</body>
+</html>
