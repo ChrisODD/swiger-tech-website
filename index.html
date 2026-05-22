@@ -882,20 +882,20 @@
         <div class="form-row2">
           <div class="form-field">
             <label>First Name</label>
-            <input type="text" placeholder="John" required/>
+            <input type="text" name="first_name" placeholder="John" required/>
           </div>
           <div class="form-field">
             <label>Last Name</label>
-            <input type="text" placeholder="Smith" required/>
+            <input type="text" name="last_name" placeholder="Smith" required/>
           </div>
         </div>
         <div class="form-field">
           <label>Email</label>
-          <input type="email" placeholder="john@company.com" required/>
+          <input type="email" name="email" placeholder="john@company.com" required/>
         </div>
         <div class="form-field">
           <label>Service Needed</label>
-          <select required>
+          <select name="service" required>
             <option value="" disabled selected>Select a service…</option>
             <option>IT Services</option>
             <option>App Development</option>
@@ -906,7 +906,7 @@
         </div>
         <div class="form-field">
           <label>Tell Us About Your Project</label>
-          <textarea placeholder="A brief description of what you need…"></textarea>
+          <textarea name="message" placeholder="A brief description of what you need…"></textarea>
         </div>
         <button class="submit-btn" type="submit">Send Message →</button>
       </form>
